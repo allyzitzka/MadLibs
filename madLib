@@ -1,0 +1,33 @@
+// Ally Zitzka
+
+
+import java.util.Scanner;
+import java.io.*;
+public class MadLib{
+    public static void main(String[] args) throws FileNotFoundException{
+        File outfile = new File("output.txt"); // creates output file
+        PrintStream output = new PrintStream(outfile);
+        Scanner console = new Scanner(System.in); // scanner for user input
+        File f = new File("vacation.txt"); // gets input file
+        Scanner fileScan = new Scanner(f); // scanner for input file
+        String end = "";
+        while(fileScan.hasNextLine()){
+            String line = fileScan.nextLine(); // sets current line of input file to new variable
+            if(line.contains("<")){
+                line = replaceWord(line, console); // gets user input if needed
+            }
+            end += line + "\n"; // adds line with corrections to output variable
+            output.println(line); // prints corrected line to new file
+        }
+        System.out.println(end); // prints entire story
+    }
+    public static String replaceWord(String line, Scanner console){
+        String current = "";
+        while(line.contains("<")){ // prompts user for type of word
+            System.out.print("Enter a " + line.substring(line.indexOf("<") + 1, line.indexOf(">")) + ": ");
+            current = console.nextLine();
+            line = line.substring(0, line.indexOf("<")) + current + line.substring(line.indexOf(">") + 1) + " "; // replaces type of word with user input
+        }
+        return line;
+    }
+}
